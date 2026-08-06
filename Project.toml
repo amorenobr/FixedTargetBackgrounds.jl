@@ -1,9 +1,13 @@
 name = "FixedTargetBackgrounds"
 uuid = "1dba36dd-64f4-4bc3-b738-133cf09736d3"
-authors = ["Alexander Moreno Briceño <alexander.moreno@uan.edu.co> and contributors"]
 version = "1.0.0-DEV"
+authors = ["Alexander Moreno Briceño <alexander.moreno@uan.edu.co> and contributors"]
+
+[deps]
+PYTHIA8 = "ab9774ad-7527-4370-92ef-86b02700ecc9"
 
 [compat]
+PYTHIA8 = "0.2.3"
 julia = "1.12"
 
 [extras]

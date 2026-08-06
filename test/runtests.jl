@@ -33,4 +33,10 @@ using Test
         @test in_window(2.0, (1.5, 2.5))        # custom window
     end
 
+    @testset "nucleus_pdg_id" begin
+        @test nucleus_pdg_id(42, 96)  == 1000420960     # Mo-96 (the SHiP target)
+        @test nucleus_pdg_id(82, 208) == 1000822080     # Pb-208
+        @test nucleus_pdg_id(74, 184) == 1000741840     # W-184
+    end
+
 end
