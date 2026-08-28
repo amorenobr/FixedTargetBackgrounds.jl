@@ -52,7 +52,7 @@ CM-frame beams (`frameType = 1`). `idB` may be a nucleon (2212 p / 2112 n) or a 
 For a nucleus, register it first and add [`configure_angantyr!`](@ref).
 """
 function configure_beams!(pythia; idA::Integer = 2212, idB::Integer = 2212, ecm::Real = default_ecm,
-        quiet::Bool = True)
+        quiet::Bool = true)
     PYTHIA8.readString(pythia, "Beams:frameType = 1")
     PYTHIA8.readString(pythia, "Beams:idA = $idA")
     PYTHIA8.readString(pythia, "Beams:idB = $idB")

@@ -1,5 +1,6 @@
 using FixedTargetBackgrounds
 using Test
+using PYTHIA8
 
 @testset "FixedTargetBackgrounds.jl" begin
     @testset "Boost - SHiP 400 GeV" begin
@@ -37,6 +38,19 @@ using Test
         @test nucleus_pdg_id(42, 96)  == 1000420960     # Mo-96 (the SHiP target)
         @test nucleus_pdg_id(82, 208) == 1000822080     # Pb-208
         @test nucleus_pdg_id(74, 184) == 1000741840     # W-184
+    end
+
+    if get(ENV, "FTB_RUN_PYTHIA", "false") == "true"
+        @testset "Pythia - charm p+p (200 events)" begin
+            pythia = PYTHIA8.Pythia()
+            configure_beams!(pythia; idA = 2212, idB = 2212)
+            configure_charm!(pythia)
+            @test PYTHIA8.init(pythia)
+            cfg, res = measure_charm(pythia, ship_frame; n_events = 200)
+            @test res.n_gen > 0
+            @test res.n_D > 0
+            @test 1.0 < res.D_per_event < 3.0   # canonical ~1.78
+        end
     end
 
 end
