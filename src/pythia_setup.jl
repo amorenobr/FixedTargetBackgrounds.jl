@@ -33,7 +33,7 @@ function register_nucleus!(pythia, Z::Integer, A::Integer; m0::Real = A * atomic
         name::AbstractString = "nuc$(Z)_$(A)")
     id = nucleus_pdg_id(Z, A)
     # fields: id:new = name antiName spinType(=1) chargeType(=3Z) colType(=0) m0
-    PYTHIS8.readString(pythia, "$id:new = $name $(name)bar 1 $(3 * Z) 0 $m0")
+    PYTHIA8.readString(pythia, "$id:new = $name $(name)bar 1 $(3 * Z) 0 $m0")
     return id
 end
 

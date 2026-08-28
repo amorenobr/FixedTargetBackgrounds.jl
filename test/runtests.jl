@@ -53,4 +53,13 @@ using PYTHIA8
         end
     end
 
+    @testset "superposition weights" begin
+        @test w_pp(mo96) ≈ 42 / 96
+        @test w_pn(mo96) ≈ 54 / 96
+        @test w_pp(mo96) + w_pn(mo96) ≈ 1.0
+        @test superpose(1.0, 1.0, mo96) ≈ 1.0           # identical inputs
+        @test superpose(2.0, 0.0, mo96) ≈ (42 / 96) * 2 # weight check
+        @test mo96.Z == 42 && mo96.N == 54
+    end
+
 end

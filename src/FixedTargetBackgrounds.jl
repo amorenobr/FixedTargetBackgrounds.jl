@@ -5,6 +5,7 @@ using PYTHIA8
 include("kinematics.jl")
 include("pythia_setup.jl")
 include("measurements.jl")
+include("superposition.jl")
 
 export m_proton, ship_eta_window, ship_boost, ship_frame
 export Boost, GenerationFrame, CMFrame, LabFrame
@@ -16,5 +17,7 @@ export default_ecm
 
 export measure_charm, measure_kaon_muons, measure_multiplicity
 export d_meson_ids, muon_id
+
+export NuclearComposition, w_pp, w_pn, superpose, mo96
 
 end

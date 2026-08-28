@@ -61,7 +61,7 @@ Count final state muons (from kaon decays) per generated collision. Use with `co
 `mu_per_event`/`accept_frac`, and spectra vectors `η_lab`/`p_T`/`charge`.
 """
 function measure_kaon_muons(pythia, frame::GenerationFrame; n_events::Integer, window = ship_eta_window)
-    n_gen = 0; n_mu = 0; n_acc = 0; n_muplus = 0; n_muminus
+    n_gen = 0; n_mu = 0; n_acc = 0; n_muplus = 0; n_muminus = 0
     η_lab = Float64[]; pT = Float64[]; charge = Int[]
     
     for _ in 1:n_events
@@ -98,7 +98,7 @@ end
 Mean charged final state multiplicity (N_ch) per event (p+p ≈ 12, Angantyr p+Mo ≈ 21). `results`: `n_gen`,
 `mean_ch`, and the per-event vector `nch`.
 """
-function measure_multiplicity(pythia, n_events::Integer)
+function measure_multiplicity(pythia; n_events::Integer)
     n_gen = 0; total_ch = 0; nch = Int[]
    
     for _ in 1:n_events
@@ -111,7 +111,7 @@ function measure_multiplicity(pythia, n_events::Integer)
             (PYTHIA8.isFinal(p) && PYTHIA8.isCharged(p)) || continue
             c += 1
         end
-        push!(nch, c); total_h += c
+        push!(nch, c); total_ch += c
     end
 
     config = (; measurement = :multiplicity, n_events)
