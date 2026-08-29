@@ -1,0 +1,4 @@
+[deps]
+CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
+FixedTargetBackgrounds = "1dba36dd-64f4-4bc3-b738-133cf09736d3"
+PYTHIA8 = "ab9774ad-7527-4370-92ef-86b02700ecc9"
