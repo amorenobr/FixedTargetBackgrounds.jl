@@ -46,17 +46,22 @@ numbers exactly.
 register_mo96!(pythia) = register_nucleus!(pythia, 42, 96; m0 = 89.3346, name = "96Mo")
 
 """
-    configure_beams!(pythia; idA=2212, idB=2212, ecm=default_ecm, quiet=true) -> pythia
+    configure_beams!(pythia; idA=2212, idB=2212, ecm=default_ecm, quiet=true, seed=nothing) -> pythia
 
 CM-frame beams (`frameType = 1`). `idB` may be a nucleon (2212 p / 2112 n) or a registered nucleus id.
 For a nucleus, register it first and add [`configure_angantyr!`](@ref).
+seed - pin Random:seed for reproducible/independent runs; nothing (default) leaves Pythia's default seed.
 """
 function configure_beams!(pythia; idA::Integer = 2212, idB::Integer = 2212, ecm::Real = default_ecm,
-        quiet::Bool = true)
+        quiet::Bool = true, seed::Union{Nothing,Integer} = nothing)
     PYTHIA8.readString(pythia, "Beams:frameType = 1")
     PYTHIA8.readString(pythia, "Beams:idA = $idA")
     PYTHIA8.readString(pythia, "Beams:idB = $idB")
     PYTHIA8.readString(pythia, "Beams:eCM = $ecm")
+    if seed !== nothing
+        PYTHIA8.readString(pythia, "Random:setSeed = on")
+        PYTHIA8.readString(pythia, "Random:seed = $seed")
+    end
     quiet && PYTHIA8.readString(pythia, "Print:quiet = on")
     return pythia
 end

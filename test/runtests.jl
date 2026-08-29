@@ -51,6 +51,34 @@ using PYTHIA8
             @test res.n_D > 0
             @test 1.0 < res.D_per_event < 3.0   # canonical ~1.78
         end
+
+        @testset "determinism - same seed reproduces" begin
+            charm_run(seed) = begin
+                p = PYTHIA8.Pythia()
+                configure_beams!(p; idA=2212, idB = 2212, seed = seed)
+                configure_charm!(p); PYTHIA8.init(p)
+                measure_charm(p, ship_frame; n_events = 500)[2]
+            end
+            a = charm_run(12345); b = charm_run(12345)
+            @test a.n_D == b.n_D
+            @test a.D_per_event == b.D_per_event
+        end
+
+        @testset "regression - canonical numbers (fixed seed)" begin
+            pc = PYTHIA8.Pythia()
+            configure_beams!(pc; idA=2212, idB = 2212, seed = 42)
+            configure_charm!(pc); PYTHIA8.init(pc)
+            rc = measure_charm(pc, ship_frame; n_events = 5000)[2]
+            @test isapprox(rc.D_per_event, 1.7706; atol = 0.03)       # ~1.78
+            @test isapprox(rc.n_D0 / rc.n_D, 0.591; atol = 0.02)      # D⁰ ~59%
+
+            pk = PYTHIA8.Pythia()
+            configure_beams!(pk; idA=2212, idB = 2212, seed = 42)
+            configure_kaon!(pk); PYTHIA8.init(pk)
+            rk = measure_kaon_muons(pk, ship_frame; n_events = 10_000)[2] 
+            @test isapprox(rk.mu_per_event, 0.6109; atol = 0.02)           # p+p
+            @test isapprox(rk.n_muplus / rk.n_muminus, 1.299; atol = 0.05) # μ⁺/μ⁻
+        end
     end
 
     @testset "superposition weights" begin
